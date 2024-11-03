@@ -5,9 +5,11 @@ const body = document.body;
 const footer = document.querySelector("footer");
 const footerSpan = footer.querySelector(".website-name");
 const footerParagraph = footer.querySelector(".footer-about-text");
+const navbar = document.querySelector(".navbar");
 
 // Enable Dark Mode
 const enableDarkMode = () => {
+    navbar.classList.add("dark-mode");
     body.classList.add("dark-mode");
     body.classList.remove("light-mode");
     footer.classList.add("dark-mode-footer");
@@ -16,6 +18,9 @@ const enableDarkMode = () => {
     footerSpan.classList.remove("light-text");
     footerParagraph.classList.add("dark-text");
     footerParagraph.classList.remove("light-text");
+    navbar.querySelectorAll('ul li a').forEach((element) => {
+        element.style.color = 'white';
+      });
     localStorage.setItem("darkmode", "active");
     themeToggleBtn.querySelector(".theme-icon-light").style.opacity = '0';
     themeToggleBtn.querySelector(".theme-icon-dark").style.opacity = '1';
@@ -23,6 +28,7 @@ const enableDarkMode = () => {
 
 // Disable Dark Mode (Switch to Light Mode)
 const disableDarkMode = () => {
+    navbar.classList.remove("dark-mode");
     body.classList.remove("dark-mode");
     body.classList.add("light-mode");
     footer.classList.remove("dark-mode-footer");
@@ -31,6 +37,9 @@ const disableDarkMode = () => {
     footerSpan.classList.remove("dark-text");
     footerParagraph.classList.add("light-text");
     footerParagraph.classList.remove("dark-text");
+    navbar.querySelectorAll('ul li a').forEach((element) => {
+        element.style.color = 'black';
+      });
     localStorage.setItem("darkmode", "inactive");
     themeToggleBtn.querySelector(".theme-icon-light").style.opacity = '1';
     themeToggleBtn.querySelector(".theme-icon-dark").style.opacity = '0';
@@ -39,7 +48,9 @@ const disableDarkMode = () => {
 // Apply the saved theme on page load
 if (darkmode === "active") {
     enableDarkMode(); // Start in dark mode if the user prefers it
-} else {
+} else if(darkmode === "inactive") {
+    disableDarkMode(); // Otherwise, start in light mode
+} else{
     disableDarkMode(); // Otherwise, start in light mode
 }
 
